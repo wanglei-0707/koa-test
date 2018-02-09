@@ -1,7 +1,9 @@
 const Koa = require('koa')
 const app = new Koa()
+const path = require('path')
 const bodyParser = require('koa-bodyparser')
 const router = require('./router')
+const nunjucks = require('koa-nunjucks-2')
 
 // 初识中间件middleware
 // app.use(async (ctx, next) => {
@@ -55,6 +57,14 @@ const router = require('./router')
 //     await next()
 //   }
 // })
+
+app.use(nunjucks({
+  ext: 'html',
+  path: path.join(__dirname, 'views'),
+  nunjucksConfig: {
+    trimBlocks: true  // 开启转义 防Xss
+  }
+}))
 
 app.use(bodyParser())
 

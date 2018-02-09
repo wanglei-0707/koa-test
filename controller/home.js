@@ -15,16 +15,9 @@ module.exports = {
     ctx.response.body = `<h1>home ${params.id} ${params.name} page </h1>`
   },
   login: async (ctx, next) => {
-    ctx.response.body =
-    `
-      <form action='/user/register' method='post'>
-        <input name='name' type='text' placeholder='请输入用户名：wl'>
-        <br>
-        <input name='password' type='text' placeholder='请输入密码：123'>
-        <br>
-        <button>GO</button>
-      </form>
-    `
+    await ctx.render('home/login', {
+      btnName: 'GO'
+    })
   },
   register: async (ctx, next) => {
     const { name, password } = ctx.request.body
