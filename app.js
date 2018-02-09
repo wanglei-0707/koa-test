@@ -3,6 +3,7 @@ const app = new Koa()
 const path = require('path')
 const bodyParser = require('koa-bodyparser')
 const router = require('./router')
+const staticFiles = require('koa-static')
 const nunjucks = require('koa-nunjucks-2')
 
 // 初识中间件middleware
@@ -57,6 +58,8 @@ const nunjucks = require('koa-nunjucks-2')
 //     await next()
 //   }
 // })
+
+app.use(staticFiles(path.resolve(__dirname, './public')))
 
 app.use(nunjucks({
   ext: 'html',

@@ -2,7 +2,9 @@ const HomeService = require('../service/home')
 
 module.exports = {
   index: async (ctx, next) => {
-    ctx.response.body = '<h1>index page</h1>'
+    await ctx.render('home/index', {
+      title: 'iKcamp欢迎您'
+    })
   },
   home: async (ctx, next) => {
     console.log('query: ', ctx.request.query)
@@ -21,7 +23,13 @@ module.exports = {
   },
   register: async (ctx, next) => {
     const { name, password } = ctx.request.body
-    const data = await HomeService.register(name, password)
-    ctx.response.body = data
+    const res = await HomeService.register(name, password)
+    console.log('res', res, typeof res.status)
+    if (res.status === -1) {
+      await ctx.render('home/login', res.data)
+    } else {
+      ctx.state.title = '个人中心'
+      await ctx.render('home/success', res.data)
+    }
   }
 }
