@@ -24,7 +24,6 @@ module.exports = {
   register: async (ctx, next) => {
     const { name, password } = ctx.request.body
     const res = await HomeService.register(name, password)
-    console.log('res', res, typeof res.status)
     if (res.status === -1) {
       await ctx.render('home/login', res.data)
     } else {
