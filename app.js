@@ -1,10 +1,7 @@
 const Koa = require('koa')
 const app = new Koa()
-const path = require('path')
-const bodyParser = require('koa-bodyparser')
 const router = require('./router')
-const staticFiles = require('koa-static')
-const nunjucks = require('koa-nunjucks-2')
+const middleware = require('./middleware')
 
 // 初识中间件middleware
 // app.use(async (ctx, next) => {
@@ -59,17 +56,7 @@ const nunjucks = require('koa-nunjucks-2')
 //   }
 // })
 
-app.use(staticFiles(path.resolve(__dirname, './public')))
-
-app.use(nunjucks({
-  ext: 'html',
-  path: path.join(__dirname, 'views'),
-  nunjucksConfig: {
-    trimBlocks: true  // 开启转义 防Xss
-  }
-}))
-
-app.use(bodyParser())
+middleware(app)
 
 router(app)
 
